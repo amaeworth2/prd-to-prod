@@ -1,0 +1,55 @@
+{
+  "name": "audience-store-prd",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/rails/devcontainer/features/bun:1.0.2": {}
+  },
+  "containerEnv": {
+    "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}",
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}",
+    "GEMINI_API_KEY": "${localEnv:GEMINI_API_KEY}",
+    "OPENROUTER_API_KEY": "${localEnv:OPENROUTER_API_KEY}",
+    "MARTA_TRAIN_API_KEY": "${localEnv:MARTA_TRAIN_API_KEY}",
+    "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY": "${localEnv:NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Google.geminicodeassist",
+        "anthropic.claude-code",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "terminal.integrated.env.linux": {
+          "AI_TOOLS_MODE": "auto"
+        }
+      },
+      "mcp": {
+        "servers": {
+          "serena": {
+            "command": "npx",
+            "args": ["-y", "serena-mcp"],
+            "env": {
+              "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}",
+              "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}",
+              "GEMINI_API_KEY": "${localEnv:GEMINI_API_KEY}",
+              "OPENROUTER_API_KEY": "${localEnv:OPENROUTER_API_KEY}",
+              "SERENA_DEFAULT_MODEL": "gpt-4o-mini",
+              "SERENA_LOG_LEVEL": "info"
+            }
+          }
+        }
+      }
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
+  "postAttachCommand": "bash .devcontainer/postAttach.sh",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "App", "onAutoForward": "openPreview" }
+  }
+}
